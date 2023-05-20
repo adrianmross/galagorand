@@ -1,6 +1,6 @@
 # SHMUP Unity Game with Algorand SDK
 
-Finished Unity Demo repo: https://github.com/adrianmross/
+Finished Unity Demo repo: https://github.com/adrianmross/galagorand
 If you found this tutoiral interesting or helpful and want to see more tutorial please leave a star!
 
 Disclaimer: I’m not affiliated with Unity and this project is not audited and should not be used in a production environment. The Unity demo is a modified version of a [youtube tutorial](https://www.youtube.com/watch?v=rH9IHdp1dyU&list=PL6ynPcXXvDY_9nYW_S-nAliA1w1mARm8x&pp=iAQB) by Justin. I highly recommend checking out his channel to learn more about Unity and game development.
@@ -357,7 +357,7 @@ Please note that this documentation provides a general overview of the script's 
 
 You can use the Unity editor to run the game. You can also build the game for Windows, Mac, or Linux. To do this, go to File > Build Settings, select the platform you want to build for, and click Build. This will create a build in the specified folder. You can even run a test run by just clicking the play button in the Unity editor. View the debug logs in the console to see the status of the Algorand client and the transactions.
 
-Finished Dapp repo: https://github.com/JossDuff/reach-crowdfund/
+Finished Dapp repo: https://github.com/adrianmross/galagorand
 If this tutorial is helpful at all please leave a star :)
 
 13. A Building Block to Much More
