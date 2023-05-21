@@ -1,15 +1,29 @@
 # SHMUP Unity Game with Algorand SDK
 
-Finished Unity Demo repo: https://github.com/adrianmross/galagorand
-If you found this tutoiral interesting or helpful and want to see more tutorial please leave a star!
+**Author:** Adrian Michael Ross
 
-Disclaimer: I’m not affiliated with Unity and this project is not audited and should not be used in a production environment. The Unity demo is a modified version of a [youtube tutorial](https://www.youtube.com/watch?v=rH9IHdp1dyU&list=PL6ynPcXXvDY_9nYW_S-nAliA1w1mARm8x&pp=iAQB) by Justin. I highly recommend checking out his channel to learn more about Unity and game development.
+**Acknowledgements:** 
+- Russ Fusitino, Algorand Foundation Developer Advocate who served as a mentor and played a major part in this project.
+- Professor Hank Korth, Lehigh University Professor who acted as advisor for this project.
+- Justin Fletcher, Unity Developer and YouTuber for the Gradius-like Demo.
+- Jason Bou Kheir, Community Developer and Algorand SDK for Unity author, who guided me through the SDK.
+- Gabriel Coleman, Community Developer, who helped me getting started with Unity.
+- Frank Szendzielarz, Community Developer, who wrote the Algorand .NET SDK, as well as the Visual Studio extension and aided me in working with both.
+
+Finished Unity Demo **repo:** https://github.com/adrianmross/galagorand
+If you found this tutorial interesting or helpful and want to see more please leave a star!
+
+**Disclaimer:** I’m not affiliated with Unity. This project is not audited and should not be used in a production environment. The Unity demo is a modified version of a [youtube tutorial](https://www.youtube.com/watch?v=rH9IHdp1dyU&list=PL6ynPcXXvDY_9nYW_S-nAliA1w1mARm8x&pp=iAQB) by Justin Fletcher. I highly recommend checking out his channel to learn more about Unity and game development. Consider supporting him too!
+
+## Abstract
+
+This document is a tutorial that will walk you through the process of building a Unity SHMUP game that uses the Algorand SDK to reward players with ASA Game Tokens. It provides functionality to generate Algorand accounts, check supporting clients, retrieve asset metadata, and interact with assets. The script also includes some additional functionality related to the game, such as new UI and refreshed animations.
 
 ## Requirements
 
-1. An IDE to code. Visual Studio for Windows is recommended because of its integration with Unity and other tools in the ecosystem like Algorand for Visual Studio (AlgoStudio) extension which comes in handy for smart contracts. Visual Studio Code is also doable when  working with just Unity, and is what I used primarily, but requires an extensive setup.
-2. Unity Hub and Unity installed, in addition to a basic understanding of how to develop Unity projects.
-3. Algorand SDK for Unity installed. This is a Unity package that allows you to interact with the Algorand blockchain from within Unity. It is a wrapper around the Algorand SDK for C#. It is now downloadable from the Unity Asset Store.
+1. An IDE to code. Visual Studio for Windows is recommended because of its integration with Unity and other tools in the ecosystem (like Algorand for Visual Studio "AlgoStudio" extension which comes in handy for smart contracts). Visual Studio Code also works with Unity. It is what I used, but requires an extensive setup.
+2. Unity Hub and Unity, in addition to a basic understanding of how to develop Unity projects.
+3. Algorand SDK for Unity. This is a Unity package that allows you to interact with the Algorand blockchain from within Unity. It is a wrapper around the Algorand SDK for C#. It is now downloadable from the [Unity Asset Store](https://assetstore.unity.com/packages/decentralization/infrastructure/algorand-sdk-247704).
 4. Indexer such as AlgoExplorer or DappFlow to see the transactions on the blockchain.
 5. Docker - used in running a testnet node. This is optional, but recommended. You can also use a node from a third party provider like AlgoExplorer.
 
@@ -17,15 +31,15 @@ Disclaimer: I’m not affiliated with Unity and this project is not audited and 
 
 ### The Potential of ASAs
 
-NFTs have taken the last few years by storm. They are a new way to represent ownership of digital assets. They are unique, non-interchangeable, and can be used to represent things outside of the standard token. However, the hype as of late has stagnated due to the common perception equating them to 2d variations of an ape. While this is one use case, NFTs have the potential to be so much more. They can be used to represent ownership of physical assets, like a house or a car. They can be used to represent ownership of a digital asset, like a video game item or a song.
+NFTs have taken the last few years by storm. They are a way to represent ownership of digital assets. They are unique, non-interchangeable, and can be used to represent objects outside of a standard token. However, recently the hype has stagnated due to a commonnly held perception that they are nothing more than 2d variations of an ape. While this is one use case, NFTs have the potential to be so much more. They can be used to represent ownership of physical assets, like a house or a car. They can be used to represent ownership of other digital asset, like a video game item or a song. They facilitate asset transfering, enable fractional ownership, and enable other possibilities like ongoing royalty payments and automated rental agreement.
 
-Algorand is the perfect blockchain to build these NFTs on. Not only is it a fast, secure, and scalable blockchain, but has a built in feature that makes it easy to create and manage NFTs. It is called Algorand Standard Assets (ASA), which provide a standardized, Layer-1 mechanism to represent any type of asset on the Algorand blockchain.
+Algorand is the perfect blockchain to build these NFTs on. Not only is it a fast, secure, and scalable blockchain, but it has a built-in feature that makes it easy to create and manage NFTs. It is called Algorand Standard Assets (ASA), which provides a standardized, Layer-1 mechanism to represent any type of asset on the Algorand blockchain.
 
 ### Scrolling SHMUP Game
 
-The game we will be building is a scrolling shoot-em-up (SHMUP) game. The player controls a spaceship that can move up and down and shoot blaster beams. The goal of the game is to shoot down as many enemy spaceships as possible without getting hit. The player has three lives, and the game ends when the player loses all three lives. The player can collect powerups to increase their firepower and score. Read more about what makes a good [SHMUP game](https://www.racketboy.com/retro/shmups-101-a-beginners-guide-to-2d-shooters).
+The game we will be building is a scrolling shoot-em-up (SHMUP) game. The player controls a spaceship that can move up and down and shoot blaster beams. The goal of the game is to shoot down as many enemy spaceships as possible without getting hit. The player has three lives, and the game ends when the player loses all three lives. The player can collect power ups to increase their firepower and score. Read more about what makes a good [SHMUP game](https://www.racketboy.com/retro/shmups-101-a-beginners-guide-to-2d-shooters).
 
-Once again, as of now, all assets and most of the Unity code was developed by Justin. He has a step by step series that you can find [here](https://www.youtube.com/watch?v=rH9IHdp1dyU&list=PL6ynPcXXvDY_9nYW_S-nAliA1w1mARm8x&pp=iAQB).
+All assets and most of the Unity code was developed by Justin Fletcher. He has a step-by-step series that you can find [here](https://www.youtube.com/watch?v=rH9IHdp1dyU&list=PL6ynPcXXvDY_9nYW_S-nAliA1w1mARm8x&pp=iAQB).
 
 This tutorial covers the building of a script using the Algorand SDK to reward players with ASA Game Tokens. The script is written in C# and is used in a Unity game to interact with the Algorand blockchain. It provides functionality to generate a new Algorand account, check the status of the Algod and Indexer clients, retrieve an asset from the blockchain, opt into the asset, and send the asset to another account. The script also includes some additional functionality related to the game, such as updating the balance and displaying it on the UI.
 
@@ -45,19 +59,33 @@ This tutorial covers the building of a script using the Algorand SDK to reward p
 
 1. Setup
 
-To get started, you need to have Unity installed. You can download Unity from [here](https://unity3d.com/get-unity/download). You also need to have the Algorand SDK for Unity installed. You can download it from the Unity Asset Store [here](https://assetstore.unity.com/packages/tools/network/algorand-sdk-for-unity-2020-3-0-180974).
+### Help on Prerequisites
 
-Then we need the demo project. You can either download from the repository or download the unedited version from Justin's [project](https://ko-fi.com/s/599bd0fd0b). Please support him if you can!
+To get started, you need to have Unity installed. You can download Unity from [here](https://unity3d.com/get-unity/download). You also need to have the Algorand SDK for Unity installed. You can download it from the Unity Asset Store [here](https://assetstore.unity.com/packages/decentralization/infrastructure/algorand-sdk-247704).
 
-Once you have the project, open it in Unity. Navigate to the Unity Asset Store and import the Algorand SDK for Unity package. Then navigate to the Algorand SDK for Unity folder in the Project window. Follow the AlgorandSDK CreateAsas Sample to create a new creator account and game token. Make sure to record the asset ID and creator account mnemonic.
+#### Algorand SDK Pre-release Versions
 
-1. Build the Algo UI
+Alternatively, to access the source code or pre-release versions, you can download the package from the [GitHub repository](https://github.com/CareBoo/unity-algorand-sdk).
 
-The best way to add the Algo script to your Unity project is to create a Game Object that is persistent throughout the game. The best game object therefore would be a UI element that gets updated throughout the game. 
+Once cloned or downloaded, in the Unity editor, navigate to Assets > Import Package > Custom Package and select the Algorand SDK for Unity package. Take a look at the [documentation](https://github.com/CareBoo/unity-algorand-sdk#readme) to see how to configure the scope.
+
+#### Visual Studio or Visual Studio Code for Unity
+
+Unity uses the Mono runtime to run C# scripts. Mono is an open-source implementation of the .NET framework. Unity also provides a built-in code editor called MonoDevelop. However, it's recommended to use Visual Studio or Visual Studio Code for Unity development. To learn how to set up Visual Studio or Visual Studio Code for Unity development, check out the [documentation for VS](https://visualstudio.microsoft.com/vs/unity-tools/) or [VS Code](https://code.visualstudio.com/docs/other/unity).
+
+### Open the Project
+
+Next, we need the demo project. You can either clone this repository for the needed assets or download the unedited version from Justin's [project](https://ko-fi.com/s/599bd0fd0b). Please support him if you can!
+
+Once you have the project, open it in Unity using the Unity Hub. Navigate to the Algorand SDK for Unity folder in the Project window. Follow the AlgorandSDK CreateAsas Sample to create a new creator account and game token. Make sure to record the asset ID and creator account mnemonic as we will need this later.
+
+2. Build the Algo UI
+
+The best way to add the Algo script to your Unity project is to create a Game Object that is persistent throughout the game. My recommendation would be to use a UI element that gets updated throughout the game. 
 
 Create a prefab of a UI element that will be used to display the balance of the asset. We first need a canvas to hold the UI elements. Right click in the hierarchy and select UI > Canvas. Then right click on the canvas and select UI > Text. This will create a text element that will be used to display the balance. You can change the text to whatever you want, but make sure to keep the name as "BalanceText". You can also change the font, font size, and color.
 
-1. Starting the Algo.cs Script
+3. Starting the Algo.cs Script
 
 ### Dependencies
 
@@ -70,11 +98,25 @@ The script requires the following dependencies:
 - Cysharp.Threading.Tasks: A library for asynchronous programming in C#.
 - UnityEngine.UI: A library for working with UI elements in Unity.
 
-Make sure to import these dependencies in your Unity project before using the script.
+Based on all the prerequisites, you should be able to use all of these right away.
+
+### Vulnerabilities
+
+The most serious flaw is the use of local account generation and storing mnemonic in PlayerPrefs. This is a temporary solution, and NOT secure and should only be used for testing as PlayerPrefs are not secure storage and all local account objects can be reverse engineered. The alternative approach would be to use WalletConnect sessions.
+
+The only place to hold the asset creator's private key is on a game server. Therefore, the `SendAsset` method should send a request to the server to send the asset. The server should then create the transaction and send it to the Algorand blockchain.
+
+We can further use a smart contract and by default have the ASA as frozen to manage the game token. This will allow us to create a leaderboard and other game logic. We can also use the smart contract to manage the game token and ensure that the game token is not sent to an account that is not a player.
 
 ### Class Structure
 
 The `Algo` class extends the `MonoBehaviour` class, which is the base class for Unity scripts. It includes various fields, methods, and lifecycle callbacks to interact with the Algorand blockchain and handle game-related functionality.
+
+A base Unity script has a `Start()` method that is called before the first frame update and an `Update()` method that is called once per frame. However, since we are using the indexer, we need to use asynchronous methods that perform outside of the main thread as may need to wait due to network calls. Therefore, we will be using the `Awake()` method to initialize the singleton instance and the `Start()` method to initialize the Algorand account and check the status of the Algod and Indexer clients. 
+
+We will also be using the `Update()` method to check when the player finishes all the levels and call the `WrappedSendAsset()` method to initiate the process of sending the asset to another account. The `WrappedSendAsset()` method starts a coroutine named `waiter` that waits for 2 seconds before sending the asset. A coroutine is a function that can suspend its execution until the given yield instruction completes. This is to ensure that the asset is created before sending it.
+
+As our opt in and send asset methods are asynchronous, we will be using the `async` and `await` keywords to make the methods asynchronous and wait for the response before proceeding. We will also be using the `UniTask` class to make the methods asynchronous. The `UniTask` class is a library that provides a unified task API for Unity. It is a wrapper around the `Task` class and provides a more efficient way to work with tasks in Unity.
 
 ### Fields
 
@@ -88,7 +130,7 @@ The `Algo` class extends the `MonoBehaviour` class, which is the base class for 
 - `asset`: An instance of the `Asset` class representing an asset on the Algorand blockchain.
 - `balance`: An integer representing the balance of the asset.
 - `balanceText`: A `Text` component representing the UI element to display the balance.
-- `assetId`: An unsigned long representing the ID of the game token ASA (Algorand Standard Asset) on the testnet.
+- `assetId`: An unsigned long representing the ID of the game token ASA (Algorand Standard Asset) on the testnet. **Update** this value with the asset ID of the game token ASA you created earlier.
 
 4. Awake Method
 
@@ -176,7 +218,7 @@ The `Algo` class extends the `MonoBehaviour` class, which is the base class for 
 
 `CheckIndexerStatus()`: This method asynchronously checks the status of the Indexer client and updates the `indexerHealth` field accordingly.
 
-1. Get Asset Method
+7. Get Asset Method
 
 ```csharp
 // Get the asset
@@ -306,7 +348,7 @@ The principal method for sending the asset to another account is the `SendAsset`
 
 `SendAsset(string receiver, Address sender, ulong amount)`: This method asynchronously sends the asset to the specified receiver by creating and sending a transaction to the Algorand blockchain. It also updates the balance and the `balanceText` UI element
 
-We then need to call this method from the `waiter` coroutine so that the asset is first indexed before sending it.
+You then need to call this method from the `waiter` coroutine so that the asset is first indexed before sending it.
 
 ```csharp
 // Waiter is used to wait for 2 seconds before sending the asset, this is to ensure that the asset is created before sending
@@ -352,7 +394,6 @@ To use this script, follow these steps:
 
 Please note that this documentation provides a general overview of the script's functionality. It's recommended to have a good understanding of Algorand blockchain integration and Unity development before using this script in a production environment.
 
-
 11. Done!
 
 You can use the Unity editor to run the game. You can also build the game for Windows, Mac, or Linux. To do this, go to File > Build Settings, select the platform you want to build for, and click Build. This will create a build in the specified folder. You can even run a test run by just clicking the play button in the Unity editor. View the debug logs in the console to see the status of the Algorand client and the transactions.
@@ -360,7 +401,7 @@ You can use the Unity editor to run the game. You can also build the game for Wi
 Finished Dapp repo: https://github.com/adrianmross/galagorand
 If this tutorial is helpful at all please leave a star :)
 
-13. A Building Block to Much More
+12. A Building Block to Much More
 Some ideas that you can implement to improve this demo and make an even more complex game ready for production:
 
 Add a wallet to the game so that players can see their balance and send the ASA to other accounts.
