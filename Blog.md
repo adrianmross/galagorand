@@ -24,25 +24,29 @@ This document is a tutorial that will walk you through the process of building a
     - [The Potential of ASAs](#the-potential-of-asas)
     - [Scrolling SHMUP Game](#scrolling-shmup-game)
 * [Steps](#steps)
-    - [1. Setup](#1-setup)
-    - [2. Build the Algo UI](#2-build-the-algo-ui)
-    - [3. Starting the Algo.cs Script](#3-starting-the-algo.cs-script)
-    - [4. Awake Method](#4-awake-method)
-    - [5. Start Method](#5-start-method)
-    - [6. Check Status Methods](#6-check-status-methods)
-    - [7. Get Asset Method](#7-get-asset-method)
-    - [8. Opting Into the Asset Method](#8-opting-into-the-asset-method)
-    - [9. Sending the Asset Methods](#9-sending-the-asset-methods)
-    - [10. Usage](#10-usage)
-    - [11. Done!](#11-done)
-    - [12. A Building Block to Much More](#12-a-building-block-to-much-more)
+    - [1. Setup Unity](#1-setup-unity)
+    - [2. Setup Algorand Unity SDK](#2-setup-algorand-unity-sdk)
+    - [3. Setup Game Assets](#3-setup-game-assets)
+    - [4. Configuring Unity](#4-configuring-unity)
+    - [5. Creating Game Tokens](#5-creating-game-tokens)
+    - [6. Build the Algo UI (optional)](#6-build-the-algo-ui-optional)
+    - [7. Starting the Algo.cs Script](#7-coding-the-algo.cs-script)
+    - [8. Awake Method](#8-awake-method)
+    - [9. Start Method](#9-start-method)
+    - [10. Check Status Methods](#10-check-status-methods)
+    - [11. Get Asset Method](#11-get-asset-method)
+    - [12. Opting Into the Asset Method](#12-opting-into-the-asset-method)
+    - [13. Sending the Asset Methods](#13-sending-the-asset-methods)
+    - [14. Usage](#14-usage)
+    - [15. Done!](#15-done)
+    - [16. A Building Block to Much More](#16-a-building-block-to-much-more)
 
 
 ## Requirements
 
-Help on these requirements can be found in [Steps](#steps) > [1. Setup](#1.-setup).
+> Help on these requirements can be found in [Steps](#steps) from steps 1 to 4.
 
-1. An IDE to code. Visual Studio for Windows is recommended because of its integration with Unity and other tools in the ecosystem (like Algorand for Visual Studio "AlgoStudio" extension which comes in handy for smart contracts). Visual Studio Code also works with Unity. It is what I used, but requires an extensive setup.
+1. An IDE to code. Visual Studio for Windows is recommended because of its integration with Unity and other tools in the ecosystem (like [Algorand for Visual Studio](https://marketplace.visualstudio.com/items?itemName=FrankSzendzielarz.AlgoStudio) "AlgoStudio" extension which comes in handy for smart contracts). Visual Studio Code also works with Unity. It is what I used, but requires an extensive setup.
 2. Unity Hub and Unity, in addition to a basic understanding of how to develop Unity projects.
 3. Algorand SDK for Unity. This is a Unity package that allows you to interact with the Algorand blockchain from within Unity. It is a wrapper around the Algorand SDK for C#. It is now downloadable from the [Unity Asset Store](https://assetstore.unity.com/packages/decentralization/infrastructure/algorand-sdk-247704).
 4. Indexer such as AlgoExplorer or DappFlow to see the transactions on the blockchain.
@@ -52,7 +56,7 @@ Help on these requirements can be found in [Steps](#steps) > [1. Setup](#1.-setu
 
 ### The Potential of ASAs
 
-NFTs have taken the last few years by storm. They are a way to represent ownership of digital assets. They are unique, non-interchangeable, and can be used to represent objects outside of a standard token. However, recently the hype has stagnated due to a commonly held perception that they are nothing more than 2d variations of an ape. While this is one use case, NFTs have the potential to be so much more. They can be used to represent ownership of physical assets, like a house or a car. They can be used to represent ownership of other digital asset, like a video game item or a song. They facilitate asset transferring, enable fractional ownership, and enable other possibilities like ongoing royalty payments and automated rental agreement.
+NFTs have taken the last few years by storm. They are a way to represent ownership of digital assets. They are unique, non-interchangeable, and can be used to represent objects outside of a standard fungible token. However, recently the hype has stagnated due to a commonly held perception that they are nothing more than 2d variations of an ape. While this is one use case, NFTs have the potential to be so much more. They can be used to represent ownership of physical assets, like a house or a car. They can be used to represent ownership of other digital asset, like a video game item or a song. They facilitate asset transferring, enable fractional ownership, and enable other possibilities like ongoing royalty payments and automated rental agreement.
 
 Algorand is the perfect blockchain to build these NFTs on. Not only is it a fast, secure, and scalable blockchain, but it has a built-in feature that makes it easy to create and manage NFTs. It is called Algorand Standard Assets (ASA), which provides a standardized, Layer-1 mechanism to represent any type of asset on the Algorand blockchain.
 
@@ -104,53 +108,72 @@ Next, we need to load the pre-made game assets and functionality to kickstart th
 
 1. Go to this tutorial's [repository](https://github.com/adrianmross/galagorand/). In the root of the directory click on `galagorand-game-assets.unitypackage` and download the package to somewhere accessible.
 
-![Figure 1: Downloading Game Assets from GitHub Repo](<blog-images/download-asset-package.png> "Figure 1: Downloading Game Assets from GitHub Repo")
+![Figure 3-1: Downloading Game Assets from GitHub Repo](<blog-images/download-asset-package.png> "Figure 3-1: Downloading Game Assets from GitHub Repo")
 
 2. In the navbar go to _Assets > Import Package_ and click _Custom Package.._, and then navigate to your downloaded package
 
-![Figure 2: Importing a Custom Package into Unity](<blog-images/import-custom-package_screenshot.png> "Figure 2: Importing a Custom Package into Unity")
+![Figure 3-2: Importing a Custom Package into Unity](<blog-images/import-custom-package_screenshot.png> "Figure 3-2: Importing a Custom Package into Unity")
 
 3. It will again bring a list of assets in the package, with all selected confirm _Import_
 
-### 4. Setup Configuring Unity
+### 4. Configuring Unity
 
 1. These steps are slightly tedious, but within the_ Project Window_ under `./Assets` you will find a folder `Scenes` containing 5 scene `.unity` files, one of which is a default `SampleScene` added to every new project and can be deleted
 
-![Figure 3: Game Assets Scenes](<blog-images/add-open-scenes.png> "Figure 3: Game Assets Scenes")
+![Figure 4-1: Game Assets Scenes](<blog-images/add-open-scenes.png> "Figure 4-1: Game Assets Scenes")
 
 2. In the navbar go to _File > Build Settings.._ to open up the _Build Settings Menu_. It should look like `Figure5` below. We will be editing the 'Scenes in Build'. If you have not deleted the _SampleScene_, you can uncheck it now
 
-![Figure 4: Navigate to Build Settings](<blog-images/build-settings.png> "Figure 4: Navigate to Build Settings")
+![Figure 4-2: Navigate to Build Settings](<blog-images/build-settings.png> "Figure 4-2: Navigate to Build Settings")
 
-![Figure 5: Adding Scenes to Build Settings](<blog-images/build-settings-menu.png> "Figure 5: Adding Scenes to Build Settings")
+![Figure 4-3: Adding Scenes to Build Settings](<blog-images/build-settings-menu.png> "Figure 4-3: Adding Scenes to Build Settings")
 
 3. Double click on each scene (besides the _SampleScene_) in `Assets/Scenes` to load the scene into the editor and then in the _Build Settings Menu_ click _Add Open Scenes_, repeating for each scene in this order
-    * 0 - MainMenu
-    * 1 - Level1
-    * 2 - Level2
-    * 3 - Level3
-4. At this stage we should also set Visual Studios as the External Script Editor
-	1. In the navbar go to 'Edit' > 'Preferences' which will open the Preferences Menu
-	2. On the sidebar of the menu under 'Analysis' go to 'External Tools'
-	3. At the top select Microsoft Visual Studio, which will be automatically recoginized if installed on the machine you are working on
+    * 0 - `MainMenu`
+    * 1 - `Level1`
+    * 2 - `Level2`
+    * 3 - `Level3`
 
-##### Visual Studio or Visual Studio Code for Unity
+4. At this stage we should also set Visual Studios as the External Script Editor
+    1. In the navbar go to 'Edit' > 'Preferences' which will open the Preferences Menu
+    2. On the sidebar of the menu under 'Analysis' go to 'External Tools'
+    3. At the top select Microsoft Visual Studio, which will be automatically recognized if installed on the machine you are working on
+
+#### Visual Studio or Visual Studio Code for Unity
 
 Unity uses the Mono runtime to run C# scripts. Mono is an open-source implementation of the .NET framework. Unity also provides a built-in code editor called MonoDevelop. However, it's recommended to use Visual Studio or Visual Studio Code for Unity development. To learn how to set up Visual Studio or Visual Studio Code for Unity development, check out the [documentation for VS](https://visualstudio.microsoft.com/vs/unity-tools/) or [VS Code](https://code.visualstudio.com/docs/other/unity).
 
-#### Open the Project
+### 5. Creating Game Tokens
 
-Next, we need the demo project. You can either clone this repository for the needed assets or download the unedited version from Justin's [project](https://ko-fi.com/s/599bd0fd0b). Please support him if you can!
+In order for our players and demo to recieve tokens, we as the game creator need to create game tokens. 
 
-Once you have the project, open it in Unity using the Unity Hub. Navigate to the Algorand SDK for Unity folder in the Project window. Follow the AlgorandSDK CreateAsas Sample to create a new creator account and game token. Make sure to record the asset ID and creator account mnemonic as we will need this later.
+1. With the Aglorand Unity SDK installed in our Unity project, we can follow this simple CreateASAs tutorial from the Algorand Unity SDK docs: https://careboo.github.io/unity-algorand-sdk/4.1/manual/algorand_standard_assets/creating_asas_in_editor.html
+2. From this tutorial you can copy 2 addresses that you will need to proceed with the rest of the tutorial:
+    1. The Index of your GameToken asset (your assetId)
+    2. The Creator Account Address and Mnemonic (creator account)
 
-### 2. Build the Algo UI
+![Figure 5-1: Configuring Visual Studios as your External Script Editor](<blog-images/external-tools.png> "Figure 5-1: Configuring Visual Studios as your External Script Editor")
 
-The best way to add the Algo script to your Unity project is to create a Game Object that is persistent throughout the game. My recommendation would be to use a UI element that gets updated throughout the game. 
+### 6. Build the Algo UI (optional)
 
-Create a prefab of a UI element that will be used to display the balance of the asset. We first need a canvas to hold the UI elements. Right click in the hierarchy and select UI > Canvas. Then right click on the canvas and select UI > Text. This will create a text element that will be used to display the balance. You can change the text to whatever you want, but make sure to keep the name as "BalanceText". You can also change the font, font size, and color.
+> If you imported the game assets from the repository, the AlgoUserInterface prefab is already made. However, to understand how, read below.
 
-### 3. Starting the Algo.cs Script
+The best way to add the Algo script to your Unity project is to create a Game Object that is persistent throughout the game. My recommendation would be to use a UI element that gets updated throughout the game.
+
+1. Create a prefab of a UI element that will be used to display the balance of the asset.
+2. We first need a canvas to hold the UI elements. Right click in the hierarchy and select UI > Canvas.
+
+![Figure 6-1: Select UI Canvas](<blog-images/select-ui-canvas.png> "Figure 6-1: Select UI Canvas")
+
+3. Then right click on the canvas and select UI > Text. This will create a text element that will be used to display the balance. You can change the text to whatever you want, but make sure to keep the name as "BalanceText". You can also change the font, font size, and color.
+
+![Figure 6-2: Select UI Text](<blog-images/select-ui-text.png> "Figure 6-2: Select UI Text")
+
+![Figure 6-3: Rename to BalanceText](<blog-images/rename-to-balancetext.png> "Figure 6-3: Rename to BalanceText")
+
+### 7. Coding the Algo.cs Script
+
+The full script can be found in the [GitHub repo]() in `source/Algo.cs`. The only components that needs to be changed are the `assetId` that you made in [Step 5](#5-creating-game-tokens) and `senderMnemonic` located in `SendAsset()`.
 
 #### Dependencies
 
@@ -162,6 +185,7 @@ The script requires the following dependencies:
 - UnityEngine: The Unity engine library.
 - Cysharp.Threading.Tasks: A library for asynchronous programming in C#.
 - UnityEngine.UI: A library for working with UI elements in Unity.
+- TMPro: A library for working with advanced Text GUI elements in Unity.
 
 Based on all the prerequisites, you should be able to use all of these right away.
 
@@ -169,9 +193,13 @@ Based on all the prerequisites, you should be able to use all of these right awa
 
 The most serious flaw is the use of local account generation and storing mnemonic in PlayerPrefs. This is a temporary solution, and NOT secure and should only be used for testing as PlayerPrefs are not secure storage and all local account objects can be reverse engineered. The alternative approach would be to use WalletConnect sessions.
 
-The only place to hold the asset creator's private key is on a game server. Therefore, the `SendAsset` method should send a request to the server to send the asset. The server should then create the transaction and send it to the Algorand blockchain.
+The most viable place to hold the asset creator's private key is on a game server. Therefore, the `SendAsset` method should send a request to the server to send the asset. The server should then create the transaction and send it to the Algorand blockchain.
 
 We can further use a smart contract and by default have the ASA as frozen to manage the game token. This will allow us to create a leaderboard and other game logic. We can also use the smart contract to manage the game token and ensure that the game token is not sent to an account that is not a player.
+
+##### Alternatives to a Game Server
+
+A more  another option might be to use a service like [Azure Key Vault](https://developer.algorand.org/tutorials/create-an-algorand-node-on-microsoft-azure-and-sign-transaction-with-azure-key-vault/). This has to be looked at further
 
 #### Class Structure
 
@@ -195,9 +223,13 @@ As our opt in and send asset methods are asynchronous, we will be using the `asy
 - `asset`: An instance of the `Asset` class representing an asset on the Algorand blockchain.
 - `balance`: An integer representing the balance of the asset.
 - `balanceText`: A `Text` component representing the UI element to display the balance.
+- `connectionColor`: An `Image` component representing the color of the Connection button .
+- `connectionText`: A `TextMeshProUGUI` component representing the UI element to display the connection status.
 - `assetId`: An unsigned long representing the ID of the game token ASA (Algorand Standard Asset) on the testnet. **Update** this value with the asset ID of the game token ASA you created earlier.
 
-### 4. Awake Method
+### 8. Awake Method
+
+`./Alog.cs`
 
 ```csharp
 // Awake is called when the script instance is being loaded
@@ -207,7 +239,12 @@ As our opt in and send asset methods are asynchronous, we will be using the `asy
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
+
             balanceText = GameObject.Find("BalanceText").GetComponent<Text>();
+
+            // connection
+            connectionColor = GameObject.Find("ConnectionButton").GetComponent<Image>();
+            connectionText = GameObject.Find("ConnectionText").GetComponent<TextMeshProUGUI>();
         }
         else
         {
@@ -218,26 +255,38 @@ As our opt in and send asset methods are asynchronous, we will be using the `asy
 
  `Awake()`: This method is called when the script instance is being loaded. It initializes the singleton instance, sets the `balanceText` field by finding the corresponding UI element, and generates or retrieves the Algorand account based on whether the account mnemonic is stored in PlayerPrefs.
 
-### 5. Start Method
+### 9. Start Method
+
+`./Alog.cs`
 
 ```csharp
 // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("Start");
+    Debug.Log("Start");
+
+        balanceText = GameObject.Find("BalanceText").GetComponent<Text>();
+
+        // connection
+        connectionColor = GameObject.Find("ConnectionButton").GetComponent<Image>();
+        connectionText = GameObject.Find("ConnectionText").GetComponent<TextMeshProUGUI>();
+
+        connectionColor.color = Color.red;
+        connectionText.text = "NOT CONNECTED";
+
         // if account not connected, generate new account
-        // this is a temporary solution, and NOT secure and should only be used for testing. wallet connect will be implemented in the future
+
         if (PlayerPrefs.GetString("users_local_mnemonic") == "")
         {
-            Debug.Log("Generating new account");
+            Debug.Log("Generating new account"); 
             var (privateKey, address) = Algorand.Unity.Account.GenerateAccount();
             account = new Algorand.Unity.Account(privateKey);
             Debug.Log($"My address: {account.Address}");
             var mnemonic = privateKey.ToMnemonic();
             Debug.Log($"My mnemonic: {mnemonic}");
-            UnityEngine.Application.OpenURL($"https://dispenser.testnet.aws.algodev.network/?account={account.Address}"); // dispenser for testing
+            UnityEngine.Application.OpenURL($"https://dispenser.testnet.aws.algodev.network/?account={account.Address}");
             PlayerPrefs.SetString("users_local_mnemonic", mnemonic.ToString());
-            PlayerPrefs.Save(); // NOT SECURE
+            PlayerPrefs.Save(); // is this secure storage?
 
             // AssetAccept
             AcceptAsset().Forget();
@@ -248,16 +297,54 @@ As our opt in and send asset methods are asynchronous, we will be using the `asy
             Mnemonic mn = Mnemonic.FromString(PlayerPrefs.GetString("users_local_mnemonic"));
             account = new Algorand.Unity.Account(mn.ToPrivateKey());
         }
-        // replace with your node address
-        algod = new AlgodClient("https://node.testnet.algoexplorerapi.io");
+
         CheckAlgodStatus().Forget();
         CheckIndexerStatus().Forget();
+
+        WrappedConnection();
     }
 ```
 
 `Start()`: This method is called before the first frame update. It initializes the `algod` client, checks the status of the Algod and Indexer clients, and performs asset acceptance if a new account is generated.
 
-### 6. Check Status Methods
+### 10. Check Status Methods
+
+`./Alog.cs`
+
+```csharp
+public void WrappedConnection()
+    {
+        try
+        {
+            GetAsset().Forget();
+        }
+        finally 
+        {
+        StartCoroutine(getConnection());
+        }
+    }
+
+    IEnumerator getConnection()
+    {
+        yield return new WaitForSeconds(2);
+        try
+        {
+            CheckAlgodStatus().Forget();
+            CheckIndexerStatus().Forget();
+
+            connectionColor.color = new Color(0.3f, 0.85f, 0.3f, 1f);
+            connectionText.text = "CONNECTED";
+        }
+        catch
+        {
+            connectionColor.color = Color.red;
+            connectionText.text = "NOT CONNECTED";
+        }
+        
+    }
+```
+
+`WrappedConnection()` and `getConnection()` show the user if they are connected or not every 2 seconds.
 
 ```csharp
 // Check the status of the algod client
@@ -283,7 +370,9 @@ As our opt in and send asset methods are asynchronous, we will be using the `asy
 
 `CheckIndexerStatus()`: This method asynchronously checks the status of the Indexer client and updates the `indexerHealth` field accordingly.
 
-### 7. Get Asset Method
+### 11. Get Asset Method
+
+`./Alog.cs`
 
 ```csharp
 // Get the asset
@@ -305,9 +394,11 @@ As our opt in and send asset methods are asynchronous, we will be using the `asy
 
 Since we are using the indexer we need to `await` the response. The indexer is a separate service that indexes the blockchain and provides a fast and efficient way to query the blockchain. Therefore all calls to the indexer are asynchronous and cannot be run in the `Start()` method.
 
-### 8. Opting Into the Asset Method
+### 12. Opting Into the Asset Method
 
 Before we can send the asset to another account, we need to opt into the asset by sending a transaction to the Algorand blockchain. This is done by calling the `AssetAccept` method on the `Algorand.Unity.Account` instance.
+
+`./Alog.cs`
 
 ```csharp
 // Opt into the asset
@@ -356,18 +447,20 @@ Before we can send the asset to another account, we need to opt into the asset b
 
 When the code is run, the following transaction can be seen on the Algorand testnet:
 
-![Figure 6: ASA Opt In Transaction on DappFlow](blog-images/opt-in_screenshot.png "Figure 6: ASA Opt In Transaction on DappFlow")
+![Figure 12-1: ASA Opt In Transaction on DappFlow](blog-images/opt-in_screenshot.png "Figure 12-1: ASA Opt In Transaction on DappFlow")
 
-### 9. Sending the Asset Methods
+### 13. Sending the Asset Methods
 
 The principal method for sending the asset to another account is the `SendAsset` method.
+
+`./Alog.cs`
 
 ```csharp
 // Send the asset to the user
     public async UniTaskVoid SendAsset(string receiver, Address sender, ulong amount)
     {
-        // make sender account from mnemonic, this is a temporary solution, and NOT secure and should only be used for testing. a game server is the only place to hold the private key
-        Mnemonic senderMnemonic = Mnemonic.FromString("...");
+        // make sender account from mnemonic
+        Mnemonic senderMnemonic = Mnemonic.FromString("..."); // REPLACE ... with saved Mnemonic of creator
         Algorand.Unity.Account senderAccount = new Algorand.Unity.Account(senderMnemonic.ToPrivateKey());
 
         var algod = new AlgodClient("https://node.testnet.algoexplorerapi.io");
@@ -446,14 +539,19 @@ You then need to call this method from the `waiter` coroutine so that the asset 
 
 When the code is run, the following transaction can be seen on the Algorand testnet:
 
-![EditorImages/2023/05/22 03:20/send-asset_screenshot.png](<blog-images/send-asset_screenshot.png> "Figure 7: ASA Send Transaction on DappFlow")
+![EditorImages/2023/05/22 03:20/send-asset_screenshot.png](<blog-images/send-asset_screenshot.png> "Figure 13-1: ASA Send Transaction on DappFlow")
 
-### 10. Usage
+### 14. Usage
 
 To use this script, follow these steps:
 
 1. Import the required dependencies (`Algorand.Unity`, `Algorand.Unity.Indexer`, `System.Collections`, `UnityEngine`, `Cysharp.Threading.Tasks`, and `UnityEngine.UI`) into your Unity project.
-2. Attach the `Algo` script to a GameObject in your scene.
+2. Attach the `Algo` script to a GameObject in your scene
+    1. Open the prefab `./Assets/AlgorandUserInterface` and in the _Inspector_ click _Add Component_
+
+    ![Figure 14-1: Add Algo.cs Script Component](<blog-images/add-algo-script-component.png> "Figure 14-1: Add Algo.cs Script Component")
+
+    2. Search up `Algo` and click on it
 3. Make sure you have a UI element with the name "BalanceText" to display the balance.
 4. Ensure that you have a valid Algorand node URL and indexer URL specified in the code (replace the placeholders with the correct URLs).
 5. Call the appropriate methods from other scripts or UI buttons to interact with the Algorand blockchain (e.g., `WrappedSendAsset()` to initiate the asset transfer process).
@@ -461,11 +559,13 @@ To use this script, follow these steps:
 
 Please note that this documentation provides a general overview of the script's functionality. It's recommended to have a good understanding of Algorand blockchain integration and Unity development before using this script in a production environment.
 
-### 11. Done!
+> Need a refresher on Algorand blockchain integration? Here is a [playlist](https://www.youtube.com/@algodevs/playlists) for you.
 
-You can use the Unity editor to run the game. You can also build the game for Windows, Mac, or Linux. To do this, go to File > Build Settings, select the platform you want to build for, and click Build. This will create a build in the specified folder. You can even run a test run by just clicking the play button in the Unity editor. View the debug logs in the console to see the status of the Algorand client and the transactions.
+### 15. Done!
 
-### 12. A Building Block to Much More
+You can use the Unity editor to run the game. You can also build the game for Windows, Mac, or Linux. To do this, go to _File > Build Settings_, select the platform you want to build for, and click _Build_. This will create a build in the specified folder. You can even run a test run by just clicking the _Play Button_ in the Unity Editor. View the debug logs in the console to see the status of the Algorand client and the transactions.
+
+### 16. A Building Block to Much More
 Some ideas that you can implement to improve this demo and make an even more complex game ready for production:
 
 * Add a wallet to the game so that players can see their balance and send the ASA to other accounts.
@@ -473,6 +573,8 @@ Some ideas that you can implement to improve this demo and make an even more com
 * Add a game server to the game so the private key of the transaction is not stored on the client side.
 * Refactor. This is just one solution, but it’s definitely not the best solution. Improve it or write a better solution!
 
-Finished Unity Demo repo: https://github.com/adrianmross/galagorand
+> Have a look at all other Algorand Microsoft Technology tools [here](https://developer.algorand.org/articles/algorand-microsoft-developer-tools/)!
+
+**Finished Unity Demo repo:** https://github.com/adrianmross/galagorand
 
 If you found this tutorial interesting or helpful and want to see more please leave a star!
