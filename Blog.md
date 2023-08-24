@@ -103,13 +103,27 @@ Once cloned or downloaded, in the Unity editor, navigate to Assets > Import Pack
 Next, we need to load the pre-made game assets and functionality to kickstart this tutorial and focus on the Algorand side of things.
 
 1. Go to this tutorial's [repository](https://github.com/adrianmross/galagorand/). In the root of the directory click on `galagorand-game-assets.unitypackage` and download the package to somewhere accessible.
+
+![Figure 1: Downloading Game Assets from GitHub Repo](<blog-images/download-asset-package.png> "Figure 1: Downloading Game Assets from GitHub Repo")
+
 2. In the navbar go to _Assets > Import Package_ and click _Custom Package.._, and then navigate to your downloaded package
+
+![Figure 2: Importing a Custom Package into Unity](<blog-images/import-custom-package_screenshot.png> "Figure 2: Importing a Custom Package into Unity")
+
 3. It will again bring a list of assets in the package, with all selected confirm _Import_
 
 ### 4. Setup Configuring Unity
 
 1. These steps are slightly tedious, but within the_ Project Window_ under `./Assets` you will find a folder `Scenes` containing 5 scene `.unity` files, one of which is a default `SampleScene` added to every new project and can be deleted
-2. In the navbar go to _File > Build Settings.._ to open up the _Build Settings Menu_. It should look like the <image> below. We will be editing the 'Scenes in Build'. If you have not deleted the _SampleScene_, you can uncheck it now
+
+![Figure 3: Game Assets Scenes](<blog-images/add-open-scenes.png> "Figure 3: Game Assets Scenes")
+
+2. In the navbar go to _File > Build Settings.._ to open up the _Build Settings Menu_. It should look like `Figure5` below. We will be editing the 'Scenes in Build'. If you have not deleted the _SampleScene_, you can uncheck it now
+
+![Figure 4: Navigate to Build Settings](<blog-images/build-settings.png> "Figure 4: Navigate to Build Settings")
+
+![Figure 5: Adding Scenes to Build Settings](<blog-images/build-settings-menu.png> "Figure 5: Adding Scenes to Build Settings")
+
 3. Double click on each scene (besides the _SampleScene_) in `Assets/Scenes` to load the scene into the editor and then in the _Build Settings Menu_ click _Add Open Scenes_, repeating for each scene in this order
     * 0 - MainMenu
     * 1 - Level1
@@ -342,7 +356,7 @@ Before we can send the asset to another account, we need to opt into the asset b
 
 When the code is run, the following transaction can be seen on the Algorand testnet:
 
-![Figure 1: ASA Opt In Transaction on DappFlow](<blog-images/opt-in screenshot.png> "Figure 1: ASA Opt In Transaction on DappFlow")
+![Figure 6: ASA Opt In Transaction on DappFlow](blog-images/opt-in_screenshot.png "Figure 6: ASA Opt In Transaction on DappFlow")
 
 ### 9. Sending the Asset Methods
 
@@ -432,7 +446,7 @@ You then need to call this method from the `waiter` coroutine so that the asset 
 
 When the code is run, the following transaction can be seen on the Algorand testnet:
 
-![EditorImages/2023/05/22 03:20/send-asset_screenshot.png](<blog-images/send-asset_screenshot.png> "Figure 2: ASA Send Transaction on DappFlow")
+![EditorImages/2023/05/22 03:20/send-asset_screenshot.png](<blog-images/send-asset_screenshot.png> "Figure 7: ASA Send Transaction on DappFlow")
 
 ### 10. Usage
 
