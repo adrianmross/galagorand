@@ -19,6 +19,26 @@ If you found this tutorial interesting or helpful and want to see more please le
 
 This document is a tutorial that will walk you through the process of building a Unity SHMUP game that uses the Algorand SDK to reward players with ASA Game Tokens. It provides functionality to generate Algorand accounts, check supporting clients, retrieve asset metadata, and interact with assets. The script also includes some additional functionality related to the game, such as new UI and refreshed animations.
 
+## Table of Contents
+[Requirements](#requirements)
+[Background](#background)
+  [The Potential of ASAs](#the-potential-of-asas)
+  [Scrolling SHMUP Game](#scrolling-shmup-game)
+[Steps](#steps)
+  [1. Setup](#1.-setup)
+  [2. Build the Algo UI](#2.-build-the-algo-ui)
+  [3. Starting the Algo.cs Script](#3.-starting-the-algo.cs-script)
+  [4. Awake Method](#4.-awake-method)
+  [5. Start Method](#5.-start-method)
+  [6. Check Status Methods](#6.-check-status-methods)
+  [7. Get Asset Method](#7.-get-asset-method)
+  [8. Opting Into the Asset Method](#8.-opting-into-the-asset-method)
+  [9. Sending the Asset Methods](#9.-sending-the-asset-methods)
+  [10. Usage](#10.-usage)
+  [11. Done!](#11.-done!)
+  [12. A Building Block to Much More](#12.-a-building-block-to-much-more)
+
+
 ## Requirements
 
 1. An IDE to code. Visual Studio for Windows is recommended because of its integration with Unity and other tools in the ecosystem (like Algorand for Visual Studio "AlgoStudio" extension which comes in handy for smart contracts). Visual Studio Code also works with Unity. It is what I used, but requires an extensive setup.
