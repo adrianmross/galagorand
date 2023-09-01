@@ -191,7 +191,7 @@ public class Algo : MonoBehaviour
     public async UniTaskVoid AcceptAsset()
     {
         var opter = $"{account.Address}";
-        var algod = new AlgodClient("https://node.testnet.algoexplorerapi.io");
+        var algod = new AlgodClient("https://testnet-api.algonode.cloud");
         var (txnParamsError, txnParams) = await algod.TransactionParams();
         if (txnParamsError)
         {
@@ -234,7 +234,7 @@ public class Algo : MonoBehaviour
         Mnemonic senderMnemonic = Mnemonic.FromString("...");
         Algorand.Unity.Account senderAccount = new Algorand.Unity.Account(senderMnemonic.ToPrivateKey());
 
-        var algod = new AlgodClient("https://node.testnet.algoexplorerapi.io");
+        var algod = new AlgodClient("https://testnet-api.algonode.cloud");
         var (txnParamsError, txnParams) = await algod.TransactionParams();
         if (txnParamsError)
         {

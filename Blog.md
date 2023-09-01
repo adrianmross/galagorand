@@ -19,18 +19,29 @@ This document is a tutorial that will walk you through the process of building a
 
 ## Table of Contents
 
-* [Requirements](#requirements)
-* [Background](#background)
+- [SHMUP Unity Game with Algorand SDK](#shmup-unity-game-with-algorand-sdk)
+  - [Abstract](#abstract)
+  - [Table of Contents](#table-of-contents)
+  - [Requirements](#requirements)
+  - [Background](#background)
     - [The Potential of ASAs](#the-potential-of-asas)
     - [Scrolling SHMUP Game](#scrolling-shmup-game)
-* [Steps](#steps)
+  - [Steps](#steps)
     - [1. Setup Unity](#1-setup-unity)
+      - [Create with Unity in three steps](#create-with-unity-in-three-steps)
     - [2. Setup Algorand Unity SDK](#2-setup-algorand-unity-sdk)
+      - [Algorand SDK Pre-release Versions](#algorand-sdk-pre-release-versions)
     - [3. Setup Game Assets](#3-setup-game-assets)
     - [4. Configuring Unity](#4-configuring-unity)
+      - [Visual Studio or Visual Studio Code for Unity](#visual-studio-or-visual-studio-code-for-unity)
     - [5. Creating Game Tokens](#5-creating-game-tokens)
     - [6. Build the Algo UI (optional)](#6-build-the-algo-ui-optional)
-    - [7. Starting the Algo.cs Script](#7-coding-the-algo.cs-script)
+    - [7. Coding the Algo.cs Script](#7-coding-the-algocs-script)
+      - [Dependencies](#dependencies)
+      - [Vulnerabilities](#vulnerabilities)
+        - [Alternatives to a Game Server](#alternatives-to-a-game-server)
+      - [Class Structure](#class-structure)
+      - [Fields](#fields)
     - [8. Awake Method](#8-awake-method)
     - [9. Start Method](#9-start-method)
     - [10. Check Status Methods](#10-check-status-methods)
@@ -405,7 +416,7 @@ Before we can send the asset to another account, we need to opt into the asset b
     public async UniTaskVoid AcceptAsset()
     {
         var opter = $"{account.Address}";
-        var algod = new AlgodClient("https://node.testnet.algoexplorerapi.io");
+        var algod = new AlgodClient("https://testnet-api.algonode.cloud");
         var (txnParamsError, txnParams) = await algod.TransactionParams();
         if (txnParamsError)
         {
@@ -463,7 +474,7 @@ The principal method for sending the asset to another account is the `SendAsset`
         Mnemonic senderMnemonic = Mnemonic.FromString("..."); // REPLACE ... with saved Mnemonic of creator
         Algorand.Unity.Account senderAccount = new Algorand.Unity.Account(senderMnemonic.ToPrivateKey());
 
-        var algod = new AlgodClient("https://node.testnet.algoexplorerapi.io");
+        var algod = new AlgodClient("https://testnet-api.algonode.cloud");
         var (txnParamsError, txnParams) = await algod.TransactionParams();
         if (txnParamsError)
         {
